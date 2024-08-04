@@ -1,5 +1,6 @@
 import { filterCities } from "../HelperFunctions/CitySearchFunction";
 import { useEffect, useState } from "react";
+import { HorizontalWrapper, VerticalWrapper } from "./CardWrappers";
 
 function useDebouncing(value, delay) {
   const [debouncedVal, setDeboundedVal] = useState("");
@@ -16,7 +17,7 @@ function useDebouncing(value, delay) {
   return debouncedVal;
 }
 
-function SearchBar() {
+function SearchBar({ addSelectedCity }) {
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebouncing(searchQuery, 300);
   const [filteredCities, setFilteredCities] = useState([]);
@@ -36,23 +37,30 @@ function SearchBar() {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search For Cities"
-        value={searchQuery}
-        onChange={(e) => {
-          setSearchQuery(e.target.value);
-        }}
-      />
-      <ul>
-        {filteredCities.map((city, index) => {
-          return (
-            <li key={index}>
-              {city.name}, {city.country}
-            </li>
-          );
-        })}
-      </ul>
+      <VerticalWrapper>
+        <input
+          type="text"
+          placeholder="Search For Cities"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+          }}
+        />
+        <ul>
+          {filteredCities.map((city, index) => {
+            return (
+              <li
+                key={index}
+                onClick={() => {
+                  addSelectedCity(city);
+                }}
+              >
+                {city.name}, {city.country}
+              </li>
+            );
+          })}
+        </ul>
+      </VerticalWrapper>
     </div>
   );
 }
