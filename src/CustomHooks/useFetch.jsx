@@ -13,7 +13,7 @@ export const getWeatherData = async (city) => {
         units: "metric,",
       },
     });
-    console.log(response);
+    return response;
   } catch (e) {
     console.log(`cannot fetch the data because ${e}`);
     throw e;

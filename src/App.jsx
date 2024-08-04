@@ -6,9 +6,9 @@ import { filterCities } from "./HelperFunctions/CitySearchFunction";
 import SearchBar from "./Components/SearchBar";
 import { VerticalWrapper } from "./Components/CardWrappers";
 import { getWeatherData } from "./CustomHooks/useFetch";
+import WeatherCard from "./Components/WeatherCard";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [selectedcities, setSelectedcities] = useState([]);
   const [citiesWeatherData, setCitiesWeatherData] = useState([]);
 
@@ -36,7 +36,7 @@ function App() {
       if (selectedcities.length == 0) return;
       const lastCity = selectedcities[selectedcities.length - 1];
       const cityWeatherData = await getWeatherData(lastCity);
-      console.log(`use effect :::: ${cityWeatherData}`);
+      console.log("use effect ::::", cityWeatherData);
       setCitiesWeatherData((prevCitiesData) => {
         return [...prevCitiesData, cityWeatherData];
       });
@@ -50,6 +50,13 @@ function App() {
       <VerticalWrapper>
         <h1>City Search</h1>
         <SearchBar addSelectedCity={addCityToList} />
+        <div>
+          <VerticalWrapper>
+            {citiesWeatherData.map((data, index) => {
+              return <WeatherCard key={index} weatherData={data}></WeatherCard>;
+            })}
+          </VerticalWrapper>
+        </div>
       </VerticalWrapper>
     </div>
   );
